@@ -2,11 +2,6 @@ require 'spec_helper'
 
 describe 'stats/file.html.erb', type: :view do
   describe 'usage statistics' do
-    let(:file_set) {
-      stub_model(FileSet, id: '123',
-                          title: ['file1.txt'])
-    }
-
     let(:no_stats) {
       allow_message_expectations_on_nil
       allow(FileUsage).to receive(:new)
@@ -29,7 +24,6 @@ describe 'stats/file.html.erb', type: :view do
     }
 
     before do
-      assign(:file_set, file_set)
       assign(:stats, no_stats)
     end
 
