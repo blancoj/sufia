@@ -61,6 +61,7 @@ export class SaveWorkControl {
 
     this.saveButton = this.element.find(':submit')
 
+    this.mustAgreeAgain = this.form.find('input[name="agreement"]').val() === "1"
     this.depositAgreement = new DepositAgreement(this.form, () => this.formChanged())
 
     this.requiredMetadata = new ChecklistItem(this.element.find('#required-metadata'))
@@ -95,6 +96,13 @@ export class SaveWorkControl {
   validateFiles() {
     if (!this.isNew || this.uploads.hasFiles) {
       this.requiredFiles.check()
+
+      if (this.uploads.hasFiles && this.mustAgreeAgain) {
+        // Force the user to agree before submitting
+        this.form.find('input[name="agreement"]').prop("checked", false)
+        this.mustAgreeAgain = false
+      }
+
       return true
     }
     this.requiredFiles.uncheck()
